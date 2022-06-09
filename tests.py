@@ -10,19 +10,21 @@ from MULScrambler import MULDescramble
 from XORScrambler import XORScrambler
 from XORScrambler import XORKeyGenerator
 from NOTScrambler import NOTScrambler
-from B8ZSScrambler import B8ZSScrambler
-from B8ZSScrambler import B8ZSDataGenerator
+from B8ZSScrambler import *
 
 def singleTest(size, percentage):
     print('Creating new bitarray of size ' + str(size) + '!')
     test = bitarray(size)
+    testB8ZS = [0] * int(size)
     print('Filling ' + str(percentage) + '% of signal with ones!')
     initArray(test, percentage)
+    B8ZSDataGenerator(testB8ZS,percentage)
     print('Testing algoritms!')
     signalBER = 0
     mulScramblerBER = 0
     xorScramblerBER = 0
     notScramblerBER = 0
+    B8ZSScramblerBER = 0
 
     for i in range (0,10):
         signal = test.copy()
@@ -48,6 +50,11 @@ def singleTest(size, percentage):
         NOTScrambler(notScrambleSignal)
         notScramblerBER += bitErrorRatio(test,notScrambleSignal)
 
+        B8ZSScrambleSignal = B8ZSScrambler(testB8ZS,1)
+
+        B8ZSScramblerBER += bitErrorRatio(B8ZSScrambleSignal,trasmisionErrorGeneratorForB8(B8ZSScrambleSignal))
+
+
     print('Saving results\n')
     with open('results.txt', 'a') as file:
         file.write('Result for size ' + str(size) + ' and ' + str(percentage) + '% of ones:\n')
@@ -55,6 +62,7 @@ def singleTest(size, percentage):
         file.write("MULScrambler average BER: " + str(mulScramblerBER / 10) + "\n")
         file.write("XORScrambler average BER: " + str(xorScramblerBER / 10) + "\n")
         file.write("NOTScrambler average BER: " + str(notScramblerBER / 10) + "\n")
+        file.write("B8ZSScrambler average BER: " + str(B8ZSScramblerBER / 10) + "\n")
         file.write("\n")
     test.clear()
 
