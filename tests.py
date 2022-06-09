@@ -10,6 +10,8 @@ from MULScrambler import MULDescramble
 from XORScrambler import XORScrambler
 from XORScrambler import XORKeyGenerator
 from NOTScrambler import NOTScrambler
+from B8ZSScrambler import B8ZSScrambler
+from B8ZSScrambler import B8ZSDataGenerator
 
 def singleTest(size, percentage):
     print('Creating new bitarray of size ' + str(size) + '!')
@@ -21,6 +23,7 @@ def singleTest(size, percentage):
     mulScramblerBER = 0
     xorScramblerBER = 0
     notScramblerBER = 0
+
     for i in range (0,10):
         signal = test.copy()
         trasmisionErrorGenerator(signal)
@@ -44,6 +47,7 @@ def singleTest(size, percentage):
         trasmisionErrorGenerator(notScrambleSignal)
         NOTScrambler(notScrambleSignal)
         notScramblerBER += bitErrorRatio(test,notScrambleSignal)
+
     print('Saving results\n')
     with open('results.txt', 'a') as file:
         file.write('Result for size ' + str(size) + ' and ' + str(percentage) + '% of ones:\n')

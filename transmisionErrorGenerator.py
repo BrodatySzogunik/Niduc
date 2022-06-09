@@ -8,7 +8,6 @@ def trasmisionErrorGenerator(array):
         elif (array[i] == True or i == len(array)-1):
             if (zerosCounter >= 8):
                 onesCount = random.randint(1, round(zerosCounter/2))
-                # print(onesCount)
                 while (onesCount > 0):
                     indexForTrue = random.randint(i - zerosCounter, i)
                     if (array[indexForTrue] == False):

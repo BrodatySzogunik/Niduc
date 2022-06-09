@@ -10,6 +10,8 @@ from MULScrambler import MULDescramble
 from XORScrambler import XORScrambler
 from XORScrambler import XORKeyGenerator
 from NOTScrambler import NOTScrambler
+from B8ZSScrambler import B8ZSScrambler
+from B8ZSScrambler import B8ZSDataGenerator
 from tests import runTests
 
 def main():
@@ -41,6 +43,7 @@ def main():
     #print('NOTScrambler BER:',bitErrorRatio(mainData,notScrambleSignal),'%')
 
     data = None
+    dataB8ZS = None
 
     menu = {}
     menu['1'] = "Generate signal and display"
@@ -48,7 +51,8 @@ def main():
     menu['3'] = "Use MULScrambler.py and show BER"
     menu['4'] = "Use XORScrambler.py and show BER"
     menu['5'] = "Use NOTScrambler.py and show BER"
-    menu['6'] = "Run tests and save to file"
+    menu['6'] = "Use B8ZSScrambler.py and show signal"
+    menu['7'] = "Run tests and save to file"
     menu['0'] = "Exit"
     while True:
         options = menu.keys()
@@ -60,7 +64,10 @@ def main():
             ones = input("Insert percentage of one [1-100]:")
             data = bitarray(int(size))
             initArray(data,int(ones))
-            print('Generated signal:',data);
+            print('Generated bitarray signal:',data);
+            dataB8ZS = [0] * int(size)
+            dataB8ZS = B8ZSDataGenerator(dataB8ZS, int(ones))
+            print('Generated signal for B8ZS:', dataB8ZS);
             os.system('pause')
         elif selection == '2':
             if not data:
@@ -102,6 +109,14 @@ def main():
                 NOTScrambler(notScrambleSignal)
                 print('NOTScrambler BER:',bitErrorRatio(data,notScrambleSignal),'%')
         elif selection == '6':
+            if not dataB8ZS:
+                print('No signal generated! Cannot continue!')
+                os.system('pause')
+            else:
+                print("Before Scramble: ",dataB8ZS)
+                outputSignal = B8ZSScrambler(dataB8ZS, 1)
+                print("After Scramble:  ",outputSignal)
+        elif selection == '7':
             runTests()
         elif selection == '0':
             break;
