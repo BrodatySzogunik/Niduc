@@ -13,4 +13,3 @@ def initArray(array,procentageOfOnes):
         if array[indexForOne] == False:
             array[indexForOne] = True
             iterationVar = iterationVar - 1
-

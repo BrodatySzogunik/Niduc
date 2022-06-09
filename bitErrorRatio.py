@@ -3,4 +3,4 @@ def bitErrorRatio(inputArray, outputArray):
     for i in range(0, len(inputArray)):
         if inputArray[i] != outputArray[i]:
             errorCounter += 1
-    return errorCounter/len(inputArray)
+    return (errorCounter/len(inputArray))*100
