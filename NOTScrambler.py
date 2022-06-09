@@ -1,5 +1,3 @@
-from bitarray import bitarray
-
 def NOTScrambler(array):
     currentIndex = 0
     while(currentIndex < len(array)):

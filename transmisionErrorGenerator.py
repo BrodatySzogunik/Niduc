@@ -18,17 +18,16 @@ def trasmisionErrorGenerator(array):
                 zerosCounter = 0
             else:
                 zerosCounter = 0
-        if array[i] == True:
-            onesCounter += 1
-        elif (array[i] == False or i == len(array)-1):
-            if (onesCounter >= 8):
-                zeroCount = random.randint(1, round(onesCounter/2))
-                # print(onesCount)
-                while (zeroCount > 0):
-                    indexForFalse = random.randint(i - onesCounter, i)
-                    if (array[indexForFalse] == True):
-                        array[indexForFalse] = False
-                        zeroCount -= 1
-                onesCounter = 0
-            else:
-                onesCounter = 0
+        #if array[i] == True:
+        #    onesCounter += 1
+        #elif (array[i] == False or i == len(array)-1):
+        #    if (onesCounter >= 8):
+        #        zeroCount = random.randint(1, round(onesCounter/2))
+        #        # print(onesCount)
+        #        while (zeroCount > 0):
+        #            indexForFalse = random.randint(i - onesCounter, i)
+        #            if (array[indexForFalse] == True):
+        #                 zeroCount -= 1
+        #        onesCounter = 0
+        #    else:
+        #        onesCounter = 0

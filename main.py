@@ -51,7 +51,6 @@ def main():
     menu['6'] = "Run tests and save to file"
     menu['0'] = "Exit"
     while True:
-        os.system('cls')
         options = menu.keys()
         for entry in options:
             print (entry, menu[entry])
@@ -64,9 +63,13 @@ def main():
             print('Generated signal:',data);
             os.system('pause')
         elif selection == '2':
-            signal = data.copy()
-            trasmisionErrorGenerator(signal)
-            print('No scrambler BER:',bitErrorRatio(data,signal),'%')
+            if not data:
+                print('No signal generated! Cannot continue!')
+                os.system('pause')
+            else:
+                signal = data.copy()
+                trasmisionErrorGenerator(signal)
+                print('No scrambler BER:',bitErrorRatio(data,signal),'%')
         elif selection == '3':
             if not data:
                 print('No signal generated! Cannot continue!')
