@@ -10,8 +10,7 @@ from MULScrambler import MULDescramble
 from XORScrambler import XORScrambler
 from XORScrambler import XORKeyGenerator
 from NOTScrambler import NOTScrambler
-from B8ZSScrambler import B8ZSScrambler
-from B8ZSScrambler import B8ZSDataGenerator
+from B8ZSScrambler import *
 from tests import runTests
 
 def main():
@@ -114,8 +113,10 @@ def main():
                 os.system('pause')
             else:
                 print("Before Scramble: ",dataB8ZS)
-                outputSignal = B8ZSScrambler(dataB8ZS, 1)
+                outputSignal = B8ZSScrambler(dataB8ZS,-1)
                 print("After Scramble:  ",outputSignal)
+                descrambledSignal = B8ZSDescrambler(outputSignal)
+                print("After Descramble:  ", descrambledSignal)
         elif selection == '7':
             runTests()
         elif selection == '0':

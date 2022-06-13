@@ -24,16 +24,40 @@ def B8ZSScrambler(array, lastSymbol):
                 consecZero = 0
     return array
 
-def B8ZSDataGenerator(array, procentageOfOnes):
-    ones = procentageOfOnes
-    iterationVar = ((len(array) * ones) / 100)
+def B8ZSDescrambler(array):
+    for i in range(5,len(array)):
+        if (array[i-1] == 1 and array[i-2] == 0 and array[i-3] == 1) or (array[i-1] == -1 and array[i-2] == 0 and array[i-3] == -1):
+            array[i] = 0
+            array[i-1] = 0
+            array[i-3] = 0
+            array[i-4] = 0
+    return array
 
-    while(iterationVar > 0):
+
+
+
+
+def B8ZSDataGenerator(array, procentageOfOnes):
+
+    iterationVar = ((len(array) * procentageOfOnes) / 100)
+
+    while (iterationVar > 0):
         indexForOne = random.randint(0, len(array) - 1)
         if array[indexForOne] == 0:
-            array[indexForOne] = random.choice([1,-1])
+            array[indexForOne] = 1
             iterationVar = iterationVar - 1
+
+    lastValue=-1
+    for i in range(0,len(array)):
+        if array[i] == 1:
+            if lastValue == -1:
+                array[i] = 1
+                lastValue = 1
+            else:
+                array[i] = -1
+                lastValue = -1
     return array
+
 
 def trasmisionErrorGeneratorForB8(array):
     zerosCounter = 0

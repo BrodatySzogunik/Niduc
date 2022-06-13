@@ -50,9 +50,12 @@ def singleTest(size, percentage):
         NOTScrambler(notScrambleSignal)
         notScramblerBER += bitErrorRatio(test,notScrambleSignal)
 
-        B8ZSScrambleSignal = B8ZSScrambler(testB8ZS,1)
+        B8ZSScrambleSignal = testB8ZS.copy()
+        testB8ZS = B8ZSScrambler(testB8ZS,1)
+        testB8ZS = trasmisionErrorGeneratorForB8(testB8ZS)
+        testB8ZS = B8ZSDescrambler(testB8ZS)
 
-        B8ZSScramblerBER += bitErrorRatio(B8ZSScrambleSignal,trasmisionErrorGeneratorForB8(B8ZSScrambleSignal))
+        B8ZSScramblerBER += bitErrorRatio(B8ZSScrambleSignal,testB8ZS)
 
 
     print('Saving results\n')
