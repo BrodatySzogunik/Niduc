@@ -1,13 +1,13 @@
 POLYNOMIAL_INDEX1 = 2
 POLYNOMIAL_INDEX2 = 8
 
-def MULScramble(array):
+def MULScrambler(array):
     currentIndex = POLYNOMIAL_INDEX2
     while(currentIndex < len(array)):
         array[currentIndex] = array[currentIndex] ^ (array[currentIndex-POLYNOMIAL_INDEX1] ^ array[currentIndex-POLYNOMIAL_INDEX2])
         currentIndex += 1
 
-def MULDescramble(array):
+def MULDescrambler(array):
     currentIndex = POLYNOMIAL_INDEX2
     oldArray = array.copy()
     while(currentIndex < len(oldArray)):

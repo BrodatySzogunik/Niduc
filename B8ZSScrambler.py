@@ -33,10 +33,6 @@ def B8ZSDescrambler(array):
             array[i-4] = 0
     return array
 
-
-
-
-
 def B8ZSDataGenerator(array, procentageOfOnes):
 
     iterationVar = ((len(array) * procentageOfOnes) / 100)
@@ -57,7 +53,6 @@ def B8ZSDataGenerator(array, procentageOfOnes):
                 array[i] = -1
                 lastValue = -1
     return array
-
 
 def trasmisionErrorGeneratorForB8(array):
     zerosCounter = 0

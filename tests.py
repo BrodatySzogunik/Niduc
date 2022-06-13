@@ -2,14 +2,13 @@ import os
 
 from bitarray import bitarray
 
-from initArray import initArray
-from bitErrorRatio import bitErrorRatio
-from transmisionErrorGenerator import trasmisionErrorGenerator
-from MULScrambler import MULScramble
-from MULScrambler import MULDescramble
-from XORScrambler import XORScrambler
-from XORScrambler import XORKeyGenerator
-from NOTScrambler import NOTScrambler
+from initArray import *
+from bitErrorRatio import *
+from transmisionErrorGenerator import *
+from ADDScrambler import *
+from MULScrambler import *
+from XORScrambler import *
+from NOTScrambler import *
 from B8ZSScrambler import *
 
 def singleTest(size, percentage):
@@ -21,20 +20,27 @@ def singleTest(size, percentage):
     B8ZSDataGenerator(testB8ZS,percentage)
     print('Testing algoritms!')
     signalBER = 0
+    addScramblerBER = 0
     mulScramblerBER = 0
     xorScramblerBER = 0
     notScramblerBER = 0
-    B8ZSScramblerBER = 0
+    b8zsScramblerBER = 0
 
     for i in range (0,10):
         signal = test.copy()
         trasmisionErrorGenerator(signal)
         signalBER += bitErrorRatio(test,signal)
 
+        addScramblerSignal = test.copy()
+        ADDScrambler(addScramblerSignal)
+        trasmisionErrorGenerator(addScramblerSignal)
+        ADDScrambler(addScramblerSignal)
+        addScramblerBER += bitErrorRatio(test, addScramblerSignal)
+
         mulScramblerSignal = test.copy()
-        MULScramble(mulScramblerSignal)
+        MULScrambler(mulScramblerSignal)
         trasmisionErrorGenerator(mulScramblerSignal)
-        MULDescramble(mulScramblerSignal)
+        MULDescrambler(mulScramblerSignal)
         mulScramblerBER += bitErrorRatio(test,mulScramblerSignal)
 
         xorScramblerSignal = test.copy()
@@ -55,17 +61,18 @@ def singleTest(size, percentage):
         testB8ZS = trasmisionErrorGeneratorForB8(testB8ZS)
         testB8ZS = B8ZSDescrambler(testB8ZS)
 
-        B8ZSScramblerBER += bitErrorRatio(B8ZSScrambleSignal,testB8ZS)
+        b8zsScramblerBER += bitErrorRatio(B8ZSScrambleSignal,testB8ZS)
 
 
     print('Saving results\n')
     with open('results.txt', 'a') as file:
         file.write('Result for size ' + str(size) + ' and ' + str(percentage) + '% of ones:\n')
         file.write("No Scrambler average BER: " + str(signalBER / 10) + "\n")
+        file.write("ADDScrambler average BER: " + str(addScramblerBER / 10) + "\n")
         file.write("MULScrambler average BER: " + str(mulScramblerBER / 10) + "\n")
         file.write("XORScrambler average BER: " + str(xorScramblerBER / 10) + "\n")
         file.write("NOTScrambler average BER: " + str(notScramblerBER / 10) + "\n")
-        file.write("B8ZSScrambler average BER: " + str(B8ZSScramblerBER / 10) + "\n")
+        file.write("B8ZSScrambler average BER: " + str(b8zsScramblerBER / 10) + "\n")
         file.write("\n")
     test.clear()
 

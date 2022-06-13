@@ -1,6 +1,5 @@
 from bitarray.util import int2ba
 
-
 def XORScrambler(array, scrambleKey):
     currentIndex = 0
     while(currentIndex < len(array)):

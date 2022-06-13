@@ -2,56 +2,29 @@ import os
 
 from bitarray import bitarray
 
-from initArray import initArray
-from bitErrorRatio import bitErrorRatio
-from transmisionErrorGenerator import trasmisionErrorGenerator
-from MULScrambler import MULScramble
-from MULScrambler import MULDescramble
-from XORScrambler import XORScrambler
-from XORScrambler import XORKeyGenerator
-from NOTScrambler import NOTScrambler
+from initArray import *
+from bitErrorRatio import *
+from transmisionErrorGenerator import *
+from ADDScrambler import *
+from MULScrambler import *
+from XORScrambler import *
+from NOTScrambler import *
 from B8ZSScrambler import *
 from tests import runTests
 
 def main():
-    #mainData = bitarray(8192)
-
-    #initArray(mainData, 50)
-
-    #signal = mainData.copy()
-    #trasmisionErrorGenerator(signal)
-    #print('No scrambler BER:',bitErrorRatio(mainData,signal),'%')
-
-    #mulScrambleSignal = mainData.copy()
-    #MULScramble(mulScrambleSignal)
-    #trasmisionErrorGenerator(mulScrambleSignal)
-    #MULDescramble(mulScrambleSignal)
-    #print('MULScrambler BER:',bitErrorRatio(mainData,mulScrambleSignal),'%')
-
-    #xorScrambleSignal = mainData.copy()
-    #key = XORKeyGenerator(0x27)
-    #XORScrambler(xorScrambleSignal, key)
-    #trasmisionErrorGenerator(xorScrambleSignal)
-    #XORScrambler(xorScrambleSignal, key)
-    #print('XORScrambler BER:',bitErrorRatio(mainData,xorScrambleSignal),'%')
-
-    #notScrambleSignal = mainData.copy()
-    #NOTScrambler(notScrambleSignal)
-    #trasmisionErrorGenerator(notScrambleSignal)
-    #NOTScrambler(notScrambleSignal)
-    #print('NOTScrambler BER:',bitErrorRatio(mainData,notScrambleSignal),'%')
-
     data = None
     dataB8ZS = None
 
     menu = {}
     menu['1'] = "Generate signal and display"
     menu['2'] = "Don't use any scrambler and show BER"
-    menu['3'] = "Use MULScrambler.py and show BER"
-    menu['4'] = "Use XORScrambler.py and show BER"
-    menu['5'] = "Use NOTScrambler.py and show BER"
-    menu['6'] = "Use B8ZSScrambler.py and show signal"
-    menu['7'] = "Run tests and save to file"
+    menu['3'] = "Use ADDScrambler.py and show BER"
+    menu['4'] = "Use MULScrambler.py and show BER"
+    menu['5'] = "Use XORScrambler.py and show BER"
+    menu['6'] = "Use NOTScrambler.py and show BER"
+    menu['7'] = "Use B8ZSScrambler.py and show BER"
+    menu['8'] = "Run tests and save to file"
     menu['0'] = "Exit"
     while True:
         options = menu.keys()
@@ -81,12 +54,22 @@ def main():
                 print('No signal generated! Cannot continue!')
                 os.system('pause')
             else:
-                mulScrambleSignal = data.copy()
-                MULScramble(mulScrambleSignal)
-                trasmisionErrorGenerator(mulScrambleSignal)
-                MULDescramble(mulScrambleSignal)
-                print('MULScrambler BER:',bitErrorRatio(data,mulScrambleSignal),'%')
+                addScrambleSignal = data.copy()
+                ADDScrambler(addScrambleSignal)
+                trasmisionErrorGenerator(addScrambleSignal)
+                ADDScrambler(addScrambleSignal)
+                print('ADDScrambler BER:', bitErrorRatio(data, addScrambleSignal), '%')
         elif selection == '4':
+            if not data:
+                print('No signal generated! Cannot continue!')
+                os.system('pause')
+            else:
+                mulScrambleSignal = data.copy()
+                MULScrambler(mulScrambleSignal)
+                trasmisionErrorGenerator(mulScrambleSignal)
+                MULDescrambler(mulScrambleSignal)
+                print('MULScrambler BER:',bitErrorRatio(data,mulScrambleSignal),'%')
+        elif selection == '5':
             if not data:
                 print('No signal generated! Cannot continue!')
                 os.system('pause')
@@ -97,7 +80,7 @@ def main():
                 trasmisionErrorGenerator(xorScrambleSignal)
                 XORScrambler(xorScrambleSignal, key)
                 print('XORScrambler BER:',bitErrorRatio(data,xorScrambleSignal),'%')
-        elif selection == '5':
+        elif selection == '6':
             if not data:
                 print('No signal generated! Cannot continue!')
                 os.system('pause')
@@ -107,17 +90,17 @@ def main():
                 trasmisionErrorGenerator(notScrambleSignal)
                 NOTScrambler(notScrambleSignal)
                 print('NOTScrambler BER:',bitErrorRatio(data,notScrambleSignal),'%')
-        elif selection == '6':
+        elif selection == '7':
             if not dataB8ZS:
                 print('No signal generated! Cannot continue!')
                 os.system('pause')
             else:
-                print("Before Scramble: ",dataB8ZS)
-                outputSignal = B8ZSScrambler(dataB8ZS,-1)
-                print("After Scramble:  ",outputSignal)
-                descrambledSignal = B8ZSDescrambler(outputSignal)
-                print("After Descramble:  ", descrambledSignal)
-        elif selection == '7':
+                b8zsScrambleSignal = dataB8ZS.copy()
+                b8zsScrambleSignal = B8ZSScrambler(b8zsScrambleSignal, -1)
+                b8zsScrambleSignal = trasmisionErrorGeneratorForB8(b8zsScrambleSignal)
+                b8zsScrambleSignal = B8ZSDescrambler(b8zsScrambleSignal)
+                print('B8ZSScrambler BER: ',bitErrorRatio(dataB8ZS,b8zsScrambleSignal),'%')
+        elif selection == '8':
             runTests()
         elif selection == '0':
             break;
